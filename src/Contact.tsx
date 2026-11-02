@@ -40,21 +40,15 @@ export function Contact({ lang, onSent }: ContactProps) {
   return (
     <section
       id="contacto"
-      style={{
-        maxWidth: 72,
-        margin: "0 auto",
-        padding: "0 1rem",
-        paddingTop: "1rem",
-        paddingBottom: "5.5rem",
-      }}
+      className="section"
+      style={{ paddingTop: "3rem", paddingBottom: "4rem" }}
       aria-labelledby="contact-title"
     >
       {/* label + título */}
       <div
         style={{
           textAlign: "center",
-          marginBottom: "2.5rem",
-          maxWidth: 520,
+          maxWidth: 580,
           margin: "0 auto 2.5rem",
         }}
       >
@@ -66,7 +60,7 @@ export function Contact({ lang, onSent }: ContactProps) {
             letterSpacing: "0.18em",
             textTransform: "uppercase",
             color: "#7a4a21",
-            marginBottom: "0.4rem",
+            marginBottom: "0.5rem",
           }}
         >
           {lang === "es" ? "Contacto" : "Get in touch"}
@@ -75,10 +69,11 @@ export function Contact({ lang, onSent }: ContactProps) {
           id="contact-title"
           style={{
             fontSize: "clamp(1.8rem, 4vw, 2.4rem)",
-            fontWeight: 800,
+            fontWeight: 700,
             color: "#4a2c11",
-            letterSpacing: "-0.02em",
+            letterSpacing: "-0.01em",
             marginBottom: "0.6rem",
+            lineHeight: 1.2,
           }}
         >
           {lang === "es" ? "¿Nos escribes?" : "Write to us"}
@@ -86,8 +81,10 @@ export function Contact({ lang, onSent }: ContactProps) {
         <p
           style={{
             color: "#6c757d",
+            fontSize: "1rem",
+            lineHeight: 1.6,
+            maxWidth: 500,
             margin: "0.4rem auto 0",
-            fontSize: "1.02rem",
           }}
         >
           {lang === "es"
@@ -104,7 +101,7 @@ export function Contact({ lang, onSent }: ContactProps) {
           borderRadius: "2px",
           padding: "1.5rem 1.5rem 1.7rem",
           boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
-          maxWidth: 440,
+          maxWidth: 480,
           margin: "0 auto",
         }}
       >
