@@ -44,7 +44,51 @@ export function Hero({ lang, onViewMenu, onAbout }: HeroProps) {
         }}
       />
 
-      {/* Alfajor de caca rico — gran elemento gráfico centrado */}
+      {/* Alfajor decorativo derecho (solo desktop) */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          top: "38%",
+          right: "6%",
+          width: "clamp(90px, 18vw, 200px)",
+          height: "clamp(90px, 18vw, 200px)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          opacity: 0.55,
+          filter: "drop-shadow(0 8px 20px rgba(0,0,0,0.25))",
+          animation: "alfajorFloat 5s ease-in-out infinite",
+          zIndex: 2,
+          transform: "translateY(-50%)",
+        }}
+      >
+        <AlfajorRico />
+      </div>
+
+      {/* Alfajor decorativo izquierdo (solo desktop) */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          top: "55%",
+          left: "4%",
+          width: "clamp(60px, 12vw, 130px)",
+          height: "clamp(60px, 12vw, 130px)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          opacity: 0.35,
+          filter: "drop-shadow(0 6px 14px rgba(0,0,0,0.2))",
+          animation: "alfajorFloatReverse 6s ease-in-out infinite",
+          zIndex: 2,
+          transform: "translateY(-50%)",
+        }}
+      >
+        <AlfajorRico />
+      </div>
+
+      {/* Alfajor central sutil (fondo) */}
       <div
         aria-hidden="true"
         style={{
@@ -53,26 +97,17 @@ export function Hero({ lang, onViewMenu, onAbout }: HeroProps) {
           left: "50%",
           transform: "translate(-50%, -50%)",
           pointerEvents: "none",
-          zIndex: 3,
+          zIndex: 1,
+          width: "clamp(120px, 30vw, 260px)",
+          height: "clamp(120px, 30vw, 260px)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          opacity: 0.18,
+          filter: "blur(1px)",
         }}
       >
-        <div
-          style={{
-            width: "clamp(80px, 20vw, 180px)",
-            height: "clamp(80px, 20vw, 180px)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            filter: "drop-shadow(0 10px 30px rgba(0,0,0,0.4)) drop-shadow(0 0 25px rgba(212,163,115,0.3))",
-            animation: "alfajorFloat 4.5s ease-in-out infinite",
-            zIndex: 0,
-          }}
-        >
-          <AlfajorRico />
-        </div>
+        <AlfajorRico />
       </div>
 
       <div

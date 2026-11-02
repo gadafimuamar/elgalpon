@@ -161,29 +161,32 @@ export function Navbar({ cartCount, onToggleCart, onNavigate, lang, onLangChange
               onClick={onToggleCart}
               aria-label={`${t.navCarrito}: ${cartCount} artículos`}
               style={{
-                background: "rgba(212,163,115,0.18)",
-                border: "1px solid rgba(212,163,115,0.5)",
+                background: cartCount > 0 ? "rgba(212,163,115,0.32)" : "rgba(212,163,115,0.15)",
+                border: "1.5px solid rgba(212,163,115,0.5)",
                 color: "#faedcd",
                 borderRadius: "999px",
-                padding: "0.45rem 1rem 0.45rem 0.8rem",
-                fontSize: "0.9rem",
-                fontWeight: 600,
+                padding: "0.4rem 1rem 0.4rem 0.7rem",
+                fontSize: "0.85rem",
+                fontWeight: 700,
                 cursor: "pointer",
                 display: "inline-flex",
                 alignItems: "center",
-                gap: "0.4rem",
-                transition: "all 0.2s ease",
+                gap: "0.45rem",
+                transition: "all 0.25s ease",
+                boxShadow: cartCount > 0 ? "0 2px 8px rgba(212,163,115,0.3)" : "none",
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = "rgba(212,163,115,0.32)";
+                e.currentTarget.style.background = "rgba(212,163,115,0.45)";
                 e.currentTarget.style.color = "#fff";
+                e.currentTarget.style.borderColor = "rgba(212,163,115,0.7)";
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.background = "rgba(212,163,115,0.18)";
+                e.currentTarget.style.background = cartCount > 0 ? "rgba(212,163,115,0.32)" : "rgba(212,163,115,0.15)";
                 e.currentTarget.style.color = "#faedcd";
+                e.currentTarget.style.borderColor = "rgba(212,163,115,0.5)";
               }}
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path
                   d="M3 3h18l-1.5 19H4.5L3 3z"
                   stroke="currentColor"
@@ -194,7 +197,23 @@ export function Navbar({ cartCount, onToggleCart, onNavigate, lang, onLangChange
                 <circle cx="18" cy="14" r="2" stroke="currentColor" strokeWidth="2" />
                 <path d="M9 10V6M18 10V6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
               </svg>
-              <span>{cartCount}</span>
+              {cartCount > 0 && (
+                <span
+                  style={{
+                    background: "#d4a373",
+                    color: "#4a2c11",
+                    borderRadius: "999px",
+                    padding: "0.1rem 0.5rem",
+                    fontSize: "0.7rem",
+                    fontWeight: 800,
+                    minWidth: 20,
+                    textAlign: "center",
+                    boxShadow: "0 1px 4px rgba(0,0,0,0.2)",
+                  }}
+                >
+                  {cartCount > 99 ? "99+" : cartCount}
+                </span>
+              )}
             </button>
 
             {/* Hamburger */}

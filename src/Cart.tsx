@@ -20,10 +20,14 @@ export function Cart({ items, onUpdate, lang, onClose, onCreateOrder }: CartProp
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [delivery, setDelivery] = useState<"delivery" | "pickup">("delivery");
   const [payment, setPayment] = useState<"cash" | "transfer">("cash");
   const [address, setAddress] = useState("");
+  const [note, setNote] = useState("");
   const [orderId, setOrderId] = useState<number | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const prods: Product[] = products;
 
@@ -32,6 +36,8 @@ export function Cart({ items, onUpdate, lang, onClose, onCreateOrder }: CartProp
     const p = prods.find((pr) => pr.id === i.id);
     return s + (p ? p.price * i.qty : 0);
   }, 0);
+
+  const isValidContact = name.trim().length >= 2 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   const changeQty = useCallback(
     (id: number, delta: number) => {
@@ -53,7 +59,9 @@ export function Cart({ items, onUpdate, lang, onClose, onCreateOrder }: CartProp
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim() || !email.trim()) return;
+    if (!isValidContact) return;
+    setSubmitting(true);
+    setSubmitError(null);
     try {
       const orderItems: OrderItem[] = items.map((i) => {
         const p = prods.find((pr) => pr.id === i.id)!;
@@ -68,9 +76,11 @@ export function Cart({ items, onUpdate, lang, onClose, onCreateOrder }: CartProp
       const order = await createOrder({
         name: name.trim(),
         email: email.trim(),
+        phone: phone.trim() || null,
         delivery,
         address: delivery === "delivery" ? address.trim() : null,
         payment,
+        note: note.trim() || null,
         items: orderItems,
         total: orderTotal,
       });
@@ -78,15 +88,22 @@ export function Cart({ items, onUpdate, lang, onClose, onCreateOrder }: CartProp
       onCreateOrder?.(order.id);
       setName("");
       setEmail("");
+      setPhone("");
       setDelivery("delivery");
       setPayment("cash");
       setAddress("");
+      setNote("");
       onUpdate([]);
       setTimeout(() => {
         onClose();
-      }, 600);
+      }, 800);
     } catch (err) {
       console.error("Error al guardar el pedido:", err);
+      setSubmitError(lang === "es"
+        ? "No pudimos guardar tu pedido. Intentá de nuevo."
+        : "We couldn't save your order. Please try again.");
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -454,14 +471,21 @@ export function Cart({ items, onUpdate, lang, onClose, onCreateOrder }: CartProp
                     style={{
                       padding: "0.55rem 0.7rem",
                       border: "1.5px solid #e3d6c4",
-                      borderRadius: 8,
+                      borderRadius: "999px",
                       fontSize: "0.85rem",
-                      background: "#fdf9f0",
+                      background: "#fffcf5",
                       outline: "none",
                       transition: "border-color 0.2s ease",
+                      boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
                     }}
-                    onFocus={(e) => (e.target.style.borderColor = "#d4a373")}
-                    onBlur={(e) => (e.target.style.borderColor = "#e3d6c4")}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = "#d4a373";
+                      e.target.style.boxShadow = "0 0 0 3px rgba(212,163,115,0.15)";
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = "#e3d6c4";
+                      e.target.style.boxShadow = "0 1px 4px rgba(0,0,0,0.04)";
+                    }}
                   />
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
@@ -485,16 +509,61 @@ export function Cart({ items, onUpdate, lang, onClose, onCreateOrder }: CartProp
                     style={{
                       padding: "0.55rem 0.7rem",
                       border: "1.5px solid #e3d6c4",
-                      borderRadius: 8,
+                      borderRadius: "999px",
                       fontSize: "0.85rem",
-                      background: "#fdf9f0",
+                      background: "#fffcf5",
                       outline: "none",
                       transition: "border-color 0.2s ease",
+                      boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
                     }}
-                    onFocus={(e) => (e.target.style.borderColor = "#d4a373")}
-                    onBlur={(e) => (e.target.style.borderColor = "#e3d6c4")}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = "#d4a373";
+                      e.target.style.boxShadow = "0 0 0 3px rgba(212,163,115,0.15)";
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = "#e3d6c4";
+                      e.target.style.boxShadow = "0 1px 4px rgba(0,0,0,0.04)";
+                    }}
                   />
                 </div>
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
+                <label
+                  htmlFor="cartPhone"
+                  style={{
+                    fontSize: "0.8rem",
+                    fontWeight: 600,
+                    color: "#4a2c11",
+                  }}
+                >
+                  {lang === "es" ? "Teléfono (opcional)" : "Phone (optional)"}
+                </label>
+                <input
+                  id="cartPhone"
+                  type="tel"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder={lang === "es" ? "+54 9 351 123 4567" : "+54 9 351 123 4567"}
+                  style={{
+                    padding: "0.55rem 0.7rem",
+                    border: "1.5px solid #e3d6c4",
+                    borderRadius: "999px",
+                    fontSize: "0.85rem",
+                    background: "#fffcf5",
+                    outline: "none",
+                    transition: "border-color 0.2s ease",
+                    boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
+                  }}
+                  onFocus={(e) => {
+                    e.target.style.borderColor = "#d4a373";
+                    e.target.style.boxShadow = "0 0 0 3px rgba(212,163,115,0.15)";
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.borderColor = "#e3d6c4";
+                    e.target.style.boxShadow = "0 1px 4px rgba(0,0,0,0.04)";
+                  }}
+                />
               </div>
 
               <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
@@ -515,11 +584,12 @@ export function Cart({ items, onUpdate, lang, onClose, onCreateOrder }: CartProp
                   style={{
                     padding: "0.55rem 0.7rem",
                     border: "1.5px solid #e3d6c4",
-                    borderRadius: 8,
+                    borderRadius: "999px",
                     fontSize: "0.85rem",
-                    background: "#fdf9f0",
+                    background: "#fffcf5",
                     outline: "none",
                     transition: "border-color 0.2s ease",
+                    boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
                   }}
                 >
                   <option value="delivery">
@@ -552,17 +622,64 @@ export function Cart({ items, onUpdate, lang, onClose, onCreateOrder }: CartProp
                     style={{
                       padding: "0.55rem 0.7rem",
                       border: "1.5px solid #e3d6c4",
-                      borderRadius: 8,
+                      borderRadius: "999px",
                       fontSize: "0.85rem",
-                      background: "#fdf9f0",
+                      background: "#fffcf5",
                       outline: "none",
                       transition: "border-color 0.2s ease",
+                      boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
                     }}
-                    onFocus={(e) => (e.target.style.borderColor = "#d4a373")}
-                    onBlur={(e) => (e.target.style.borderColor = "#e3d6c4")}
+                    onFocus={(e) => {
+                      e.target.style.borderColor = "#d4a373";
+                      e.target.style.boxShadow = "0 0 0 3px rgba(212,163,115,0.15)";
+                    }}
+                    onBlur={(e) => {
+                      e.target.style.borderColor = "#e3d6c4";
+                      e.target.style.boxShadow = "0 1px 4px rgba(0,0,0,0.04)";
+                    }}
                   />
                 </div>
               )}
+
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
+                <label
+                  htmlFor="cartNote"
+                  style={{
+                    fontSize: "0.8rem",
+                    fontWeight: 600,
+                    color: "#4a2c11",
+                  }}
+                >
+                  {lang === "es" ? "Nota (opcional)" : "Note (optional)"}
+                </label>
+                <textarea
+                  id="cartNote"
+                  value={note}
+                  onChange={(e) => setNote(e.target.value)}
+                  placeholder={lang === "es" ? "Ej: 'Prefiero caja de regalo', 'Sin nueces', etc." : "e.g. 'Gift box preferred', 'No nuts', etc."}
+                  rows={2}
+                  style={{
+                    padding: "0.55rem 0.7rem",
+                    border: "1.5px solid #e3d6c4",
+                    borderRadius: "12px",
+                    fontSize: "0.85rem",
+                    background: "#fffcf5",
+                    outline: "none",
+                    transition: "border-color 0.2s ease",
+                    boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
+                    resize: "vertical",
+                    minHeight: 60,
+                  }}
+                  onFocus={(e) => {
+                    e.target.style.borderColor = "#d4a373";
+                    e.target.style.boxShadow = "0 0 0 3px rgba(212,163,115,0.15)";
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.borderColor = "#e3d6c4";
+                    e.target.style.boxShadow = "0 1px 4px rgba(0,0,0,0.04)";
+                  }}
+                />
+              </div>
 
               <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
                 <label
@@ -582,11 +699,12 @@ export function Cart({ items, onUpdate, lang, onClose, onCreateOrder }: CartProp
                   style={{
                     padding: "0.55rem 0.7rem",
                     border: "1.5px solid #e3d6c4",
-                    borderRadius: 8,
+                    borderRadius: "999px",
                     fontSize: "0.85rem",
-                    background: "#fdf9f0",
+                    background: "#fffcf5",
                     outline: "none",
                     transition: "border-color 0.2s ease",
+                    boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
                   }}
                 >
                   <option value="cash">
@@ -598,29 +716,69 @@ export function Cart({ items, onUpdate, lang, onClose, onCreateOrder }: CartProp
                 </select>
               </div>
 
+              {submitError && (
+                <p
+                  style={{
+                    margin: 0,
+                    fontSize: "0.8rem",
+                    color: "#c0392b",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0.35rem",
+                  }}
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
+                    <path d="M12 8v4M12 16h0" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                  </svg>
+                  {submitError}
+                </p>
+              )}
+
               <button
                 type="submit"
+                disabled={submitting || !isValidContact}
                 style={{
-                  background: "#d4a373",
+                  background: submitting ? "#7a4a21" : "#d4a373",
                   color: "#4a2c11",
                   border: "none",
                   padding: "0.75rem 1.5rem",
                   borderRadius: "999px",
                   fontWeight: 700,
-                  fontSize: "0.95rem",
-                  cursor: "pointer",
+                  fontSize: "0.9rem",
+                  cursor: isValidContact && !submitting ? "pointer" : "not-allowed",
                   transition: "background 0.2s ease, transform 0.15s ease",
-                  marginTop: "0.2rem",
+                  marginTop: "0.3rem",
+                  boxShadow: "0 4px 12px rgba(212,163,115,0.3)",
+                  opacity: isValidContact && !submitting ? 1 : 0.5,
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "#e0a878";
-                  e.currentTarget.style.transform = "translateY(-1px)";
+                  if (isValidContact && !submitting) {
+                    e.currentTarget.style.background = "#e0a878";
+                    e.currentTarget.style.transform = "translateY(-1px)";
+                  }
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.background = "#d4a373";
+                  e.currentTarget.style.background = submitting ? "#7a4a21" : "#d4a373";
                   e.currentTarget.style.transform = "none";
                 }}
               >
+                {submitting && (
+                  <span
+                    style={{
+                      display: "inline-block",
+                      width: 14,
+                      height: 14,
+                      border: "2px solid rgba(74,44,17,0.3)",
+                      borderTopColor: "#4a2c11",
+                      borderRadius: "50%",
+                      animation: "spin 0.8s linear infinite",
+                      marginRight: "0.5rem",
+                      verticalAlign: "middle",
+                      position: "relative",
+                    }}
+                  />
+                )}
                 {lang === "es" ? "Confirmar pedido" : "Confirm order"}
               </button>
             </form>

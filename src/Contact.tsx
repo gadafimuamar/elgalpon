@@ -99,14 +99,28 @@ export function Contact({ lang, onSent }: ContactProps) {
       <div
         className="contact-card"
         style={{
-          background: "linear-gradient(165deg, #ffffff 0%, #fdf6e8 100%)",
-          borderRadius: "16px",
-          padding: "1.75rem 1.75rem 2rem",
-          boxShadow: "0 8px 24px rgba(0,0,0,0.08), 0 0 0 1px rgba(212,163,115,0.15)",
-          maxWidth: 480,
+          background: "linear-gradient(160deg, #fffbf0 0%, #fdf3e0 100%)",
+          borderRadius: "12px",
+          padding: "1.6rem 1.6rem 1.8rem",
+          boxShadow: "0 4px 16px rgba(74,44,17,0.08), 0 1px 4px rgba(0,0,0,0.04)",
+          maxWidth: 460,
           margin: "0 auto",
+          border: "1px solid rgba(212,163,115,0.2)",
+          position: "relative",
+          overflow: "hidden",
         }}
       >
+        {/* decorative top bar */}
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            height: "3px",
+            background: "linear-gradient(90deg, #d4a373 0%, #c79567 50%, #d4a373 100%)",
+          }}
+        />
         {sentId !== null ? (
           <div
             style={{
@@ -145,52 +159,71 @@ export function Contact({ lang, onSent }: ContactProps) {
           <form
             onSubmit={handleSubmit}
             noValidate
-            style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
+            style={{ display: "flex", flexDirection: "column", gap: "0.9rem" }}
           >
-            <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
+            <div style={{ position: "relative", display: "flex", flexDirection: "column", gap: "0.25rem" }}>
               <label
                 htmlFor="contactName"
                 style={{
-                  fontSize: "0.85rem",
+                  fontSize: "0.8rem",
                   fontWeight: 700,
                   color: "#4a2c11",
                 }}
               >
                 {t.labelNombre} *
               </label>
-              <input
-                id="contactName"
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder={t.placeholderNombre}
-                required
-                style={{
-                  padding: "0.7rem 1rem",
-                  border: "1.5px solid #e3d6c4",
-                  borderRadius: 10,
-                  fontSize: "0.95rem",
-                  background: "#fdf9f0",
-                  color: "#4a2c11",
-                  outline: "none",
-                  transition: "border-color 0.2s ease, box-shadow 0.2s ease",
-                }}
-                onFocus={(e) => {
-                  e.target.style.borderColor = "#d4a373";
-                  e.target.style.boxShadow = "0 0 0 3px rgba(212,163,115,0.2)";
-                }}
-                onBlur={(e) => {
-                  e.target.style.borderColor = "#e3d6c4";
-                  e.target.style.boxShadow = "none";
-                }}
-              />
+              <div style={{ position: "relative" }}>
+                <span
+                  aria-hidden="true"
+                  style={{
+                    position: "absolute",
+                    left: "0.9rem",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    width: 8,
+                    height: 8,
+                    borderRadius: "50%",
+                    background: "#d4a373",
+                    display: "block",
+                    zIndex: 1,
+                  }}
+                />
+                <input
+                  id="contactName"
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder={t.placeholderNombre}
+                  required
+                  style={{
+                    padding: "0.65rem 1rem 0.65rem 2.3rem",
+                    border: "1.5px solid #e3d6c4",
+                    borderRadius: "999px",
+                    fontSize: "0.9rem",
+                    background: "#fffcf5",
+                    color: "#4a2c11",
+                    outline: "none",
+                    transition: "border-color 0.2s ease, box-shadow 0.2s ease",
+                    boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
+                    width: "100%",
+                  }}
+                  onFocus={(e) => {
+                    e.target.style.borderColor = "#d4a373";
+                    e.target.style.boxShadow = "0 0 0 3px rgba(212,163,115,0.15)";
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.borderColor = "#e3d6c4";
+                    e.target.style.boxShadow = "0 1px 4px rgba(0,0,0,0.04)";
+                  }}
+                />
+              </div>
             </div>
 
-            <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
+            <div style={{ position: "relative", display: "flex", flexDirection: "column", gap: "0.25rem" }}>
               <label
                 htmlFor="contactEmail"
                 style={{
-                  fontSize: "0.85rem",
+                  fontSize: "0.8rem",
                   fontWeight: 700,
                   color: "#4a2c11",
                 }}
@@ -205,31 +238,33 @@ export function Contact({ lang, onSent }: ContactProps) {
                 placeholder={t.placeholderEmail}
                 required
                 style={{
-                  padding: "0.7rem 1rem",
+                  padding: "0.65rem 1rem",
                   border: "1.5px solid #e3d6c4",
-                  borderRadius: 10,
-                  fontSize: "0.95rem",
-                  background: "#fdf9f0",
+                  borderRadius: "999px",
+                  fontSize: "0.9rem",
+                  background: "#fffcf5",
                   color: "#4a2c11",
                   outline: "none",
                   transition: "border-color 0.2s ease, box-shadow 0.2s ease",
+                  boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
+                  width: "100%",
                 }}
                 onFocus={(e) => {
                   e.target.style.borderColor = "#d4a373";
-                  e.target.style.boxShadow = "0 0 0 3px rgba(212,163,115,0.2)";
+                  e.target.style.boxShadow = "0 0 0 3px rgba(212,163,115,0.15)";
                 }}
                 onBlur={(e) => {
                   e.target.style.borderColor = "#e3d6c4";
-                  e.target.style.boxShadow = "none";
+                  e.target.style.boxShadow = "0 1px 4px rgba(0,0,0,0.04)";
                 }}
               />
             </div>
 
-            <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
+            <div style={{ position: "relative", display: "flex", flexDirection: "column", gap: "0.25rem" }}>
               <label
                 htmlFor="contactMessage"
                 style={{
-                  fontSize: "0.85rem",
+                  fontSize: "0.8rem",
                   fontWeight: 700,
                   color: "#4a2c11",
                 }}
@@ -244,25 +279,27 @@ export function Contact({ lang, onSent }: ContactProps) {
                 required
                 rows={4}
                 style={{
-                  padding: "0.7rem 1rem",
+                  padding: "0.65rem 1rem",
                   border: "1.5px solid #e3d6c4",
-                  borderRadius: 10,
-                  fontSize: "0.95rem",
-                  background: "#fdf9f0",
+                  borderRadius: "12px",
+                  fontSize: "0.9rem",
+                  background: "#fffcf5",
                   color: "#4a2c11",
                   outline: "none",
                   resize: "vertical",
                   minHeight: 100,
                   transition: "border-color 0.2s ease, box-shadow 0.2s ease",
                   fontFamily: "inherit",
+                  width: "100%",
+                  boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
                 }}
                 onFocus={(e) => {
                   e.target.style.borderColor = "#d4a373";
-                  e.target.style.boxShadow = "0 0 0 3px rgba(212,163,115,0.2)";
+                  e.target.style.boxShadow = "0 0 0 3px rgba(212,163,115,0.15)";
                 }}
                 onBlur={(e) => {
                   e.target.style.borderColor = "#e3d6c4";
-                  e.target.style.boxShadow = "none";
+                  e.target.style.boxShadow = "0 1px 4px rgba(0,0,0,0.04)";
                 }}
               />
             </div>
@@ -274,21 +311,33 @@ export function Contact({ lang, onSent }: ContactProps) {
                 background: loading ? "#7a4a21" : "#4a2c11",
                 color: "#fff",
                 border: "none",
-                padding: "0.8rem 1.5rem",
+                padding: "0.75rem 1.5rem",
                 borderRadius: "999px",
-                fontSize: "0.95rem",
+                fontSize: "0.9rem",
                 fontWeight: 700,
                 cursor: valid ? "pointer" : "not-allowed",
-                transition: "background 0.2s ease",
+                transition: "background 0.2s ease, transform 0.15s ease",
                 opacity: valid ? 1 : 0.5,
+                boxShadow: "0 4px 12px rgba(74,44,17,0.25)",
+                fontFamily: "inherit",
+              }}
+              onMouseEnter={(e) => {
+                if (valid && !loading) {
+                  e.currentTarget.style.background = "#7a4a21";
+                  e.currentTarget.style.transform = "translateY(-1px)";
+                }
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = loading ? "#7a4a21" : "#4a2c11";
+                e.currentTarget.style.transform = "none";
               }}
             >
               {loading && (
                 <span
                   style={{
                     display: "inline-block",
-                    width: 16,
-                    height: 16,
+                    width: 14,
+                    height: 14,
                     border: "2px solid rgba(255,255,255,0.4)",
                     borderTopColor: "#fff",
                     borderRadius: "50%",

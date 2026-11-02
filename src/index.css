@@ -32,12 +32,16 @@ html {
 }
 
 body {
-  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  font-family: "Lora", Georgia, serif;
   color: var(--color-text);
   background: #fefae0;
-  line-height: 1.6;
+  line-height: 1.7;
   min-height: 100vh;
   overflow-x: hidden;
+}
+
+h1, h2, h3, h4, .nav-logo, .section-title, .hero-title, .stat-number, .product-name {
+  font-family: "Playfair Display", Georgia, serif;
 }
 
 /* ==========================================================================
@@ -492,20 +496,40 @@ body {
 
 .product-card {
   background: var(--color-surface);
-  border-radius: var(--radius-card);
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: var(--shadow-card);
-  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: 0 4px 16px rgba(74,44,17,0.08), 0 2px 6px rgba(0,0,0,0.04);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease, border-color 0.35s ease;
   display: flex;
   flex-direction: column;
   will-change: transform;
-  border: 1px solid rgba(212,163,115,0.12);
+  border: 1px solid rgba(212,163,115,0.15);
+  position: relative;
+}
+
+.product-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(212,163,115,0.3) 0%, rgba(74,44,17,0.1) 50%, rgba(212,163,115,0.2) 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.product-card:hover::before {
+  opacity: 1;
 }
 
 .product-card:hover {
-  transform: translateY(-8px);
-  box-shadow: var(--shadow-lift);
-  border-color: rgba(212,163,115,0.3);
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 12px 32px rgba(74,44,17,0.12), 0 6px 14px rgba(0,0,0,0.08);
+  border-color: rgba(212,163,115,0.35);
 }
 
 .product-img-wrap {
@@ -513,54 +537,59 @@ body {
   overflow: hidden;
   aspect-ratio: 4 / 3;
   background: #f3e7d3;
+  border-bottom: 2px solid rgba(212,163,115,0.2);
 }
 
 .product-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.4s ease;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .product-card:hover .product-img {
-  transform: scale(1.05);
+  transform: scale(1.06);
 }
 
 .product-tag {
   position: absolute;
-  top: 0.75rem;
-  left: 0.75rem;
-  background: rgba(74, 44, 17, 0.75);
+  top: 0.6rem;
+  left: 0.6rem;
+  background: rgba(74, 44, 17, 0.8);
   color: var(--color-crema);
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding: 0.25rem 0.7rem;
+  padding: 0.2rem 0.6rem;
   border-radius: 999px;
   backdrop-filter: blur(4px);
+  border: 1px solid rgba(212,163,115,0.3);
 }
 
 .product-body {
-  padding: 1.2rem 1.2rem 1.3rem;
+  padding: 1.1rem 1.1rem 1.2rem;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   justify-content: space-between;
+  background: linear-gradient(180deg, rgba(255,255,255,0.5) 0%, transparent 100%);
 }
 
 .product-name {
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: var(--color-choco);
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.3rem;
+  line-height: 1.3;
 }
 
 .product-desc {
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   color: var(--color-text-muted);
-  margin-bottom: 1rem;
+  margin-bottom: 0.9rem;
   flex-grow: 1;
+  line-height: 1.5;
 }
 
 .product-footer {
@@ -571,26 +600,30 @@ body {
 }
 
 .product-price {
-  font-size: 1.2rem;
-  font-weight: 800;
+  font-size: 1.15rem;
+  font-weight: 700;
   color: var(--color-choco-light);
+  font-family: "Playfair Display", Georgia, serif;
 }
 
 .btn-add {
   background: var(--color-choco);
   color: white;
   border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  font-size: 0.85rem;
+  padding: 0.45rem 1rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.15s ease;
+  transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
   white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(74,44,17,0.2);
 }
 
 .btn-add:hover {
   background: var(--color-choco-light);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(74,44,17,0.3);
 }
 
 .btn-add:active {
@@ -629,37 +662,52 @@ body {
 .stats {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
+  gap: 1.25rem;
 }
 
 .stat-card {
-  background: linear-gradient(145deg, #ffffff 0%, #fdf8ee 100%);
-  border-radius: var(--radius-card);
-  padding: 1.5rem;
-  box-shadow: var(--shadow-card);
+  background: linear-gradient(145deg, #fff8e8 0%, #fdf2d8 100%);
+  border-radius: 10px;
+  padding: 1.25rem 1rem;
+  box-shadow: 0 4px 14px rgba(74,44,17,0.08), 0 1px 4px rgba(0,0,0,0.04);
   text-align: center;
-  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-  border: 1px solid rgba(212,163,115,0.15);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+  border: 1px solid rgba(212,163,115,0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #d4a373 0%, #c79567 50%, #d4a373 100%);
+  border-radius: 10px 10px 0 0;
 }
 
 .stat-card:hover {
-  transform: translateY(-6px);
-  box-shadow: var(--shadow-lift);
-  border-color: rgba(212,163,115,0.35);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(74,44,17,0.12), 0 4px 10px rgba(0,0,0,0.08);
+  border-color: rgba(212,163,115,0.4);
 }
 
 .stat-number {
-  font-size: 2.5rem;
-  font-weight: 800;
+  font-size: 2.2rem;
+  font-weight: 700;
   color: var(--color-choco);
   line-height: 1;
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.25rem;
+  font-family: "Playfair Display", Georgia, serif;
 }
 
 .stat-label {
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   color: var(--color-text-muted);
   font-weight: 500;
+  letter-spacing: 0.02em;
 }
 
 /* ==========================================================================
@@ -923,12 +971,24 @@ footer {
 
 @keyframes alfajorFloat {
   0%, 100% {
-    transform: translate(-50%, -50%) translateY(0) rotate(0deg);
+    transform: translateY(0) rotate(0deg);
   }
   33% {
-    transform: translate(-50%, -50%) translateY(-8px) rotate(1.5deg);
+    transform: translateY(-8px) rotate(1.5deg);
   }
   66% {
-    transform: translate(-50%, -50%) translateY(4px) rotate(-1deg);
+    transform: translateY(4px) rotate(-1deg);
+  }
+}
+
+@keyframes alfajorFloatReverse {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  33% {
+    transform: translateY(6px) rotate(-1deg);
+  }
+  66% {
+    transform: translateY(-4px) rotate(1.5deg);
   }
 }

@@ -144,9 +144,11 @@ async function createTables(database: SqlJsDatabase): Promise<void> {
       created_at TEXT NOT NULL DEFAULT (datetime('now')),
       name TEXT NOT NULL,
       email TEXT NOT NULL,
+      phone TEXT,
       delivery TEXT NOT NULL,
       address TEXT,
       payment TEXT NOT NULL,
+      note TEXT,
       items_json TEXT NOT NULL,
       total INTEGER NOT NULL,
       status TEXT NOT NULL DEFAULT 'pendiente'
@@ -200,9 +202,11 @@ export type Order = {
   createdAt: string;
   name: string;
   email: string;
+  phone: string | null;
   delivery: string;
   address: string | null;
   payment: string;
+  note: string | null;
   items: OrderItem[];
   total: number;
   status: string;
@@ -222,18 +226,20 @@ export type ContactMessage = {
 export async function createOrder(opts: {
   name: string;
   email: string;
+  phone?: string | null;
   delivery: string;
   address: string | null;
   payment: string;
+  note?: string | null;
   items: OrderItem[];
   total: number;
 }): Promise<Order> {
   const database = await getDbAsync();
   const itemsJson = JSON.stringify(opts.items);
   database.run(
-    `INSERT INTO orders (name, email, delivery, address, payment, items_json, total)
-     VALUES (?, ?, ?, ?, ?, ?, ?)`,
-    [opts.name, opts.email, opts.delivery, opts.address ?? null, opts.payment, itemsJson, opts.total],
+    `INSERT INTO orders (name, email, phone, delivery, address, payment, note, items_json, total)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    [opts.name, opts.email, opts.phone ?? null, opts.delivery, opts.address ?? null, opts.payment, opts.note ?? null, itemsJson, opts.total],
   );
   const result = database.exec(`SELECT last_insert_rowid() AS id`);
   const id = (result[0]?.values[0]?.[0] as number) ?? 0;
@@ -246,7 +252,7 @@ export async function createOrder(opts: {
 export async function getOrderById(id: number): Promise<Order | null> {
   const database = await getDbAsync();
   const result = database.exec(
-    `SELECT id, created_at, name, email, delivery, address, payment, items_json, total, status
+    `SELECT id, created_at, name, email, phone, delivery, address, payment, note, items_json, total, status
      FROM orders WHERE id = ?`,
     [id],
   );
@@ -261,7 +267,7 @@ export async function getOrderById(id: number): Promise<Order | null> {
 export async function getAllOrders(): Promise<Order[]> {
   const database = await getDbAsync();
   const result = database.exec(
-    `SELECT id, created_at, name, email, delivery, address, payment, items_json, total, status
+    `SELECT id, created_at, name, email, phone, delivery, address, payment, note, items_json, total, status
      FROM orders ORDER BY created_at DESC`,
   );
   if (!result || result.length === 0) return [];
@@ -291,9 +297,11 @@ export function mapOrderRow(row: Record<string, unknown>): Order {
     createdAt: row.created_at as string,
     name: row.name as string,
     email: row.email as string,
+    phone: (row.phone as string) ?? null,
     delivery: row.delivery as string,
     address: (row.address as string) ?? null,
     payment: row.payment as string,
+    note: (row.note as string) ?? null,
     items: JSON.parse(row.items_json as string) as OrderItem[],
     total: row.total as number,
     status: row.status as string,
