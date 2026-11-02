@@ -88,7 +88,7 @@ export function Cart({ items, onUpdate, lang, onClose, onCreateOrder }: CartProp
     } catch (err) {
       console.error("Error al guardar el pedido:", err);
     }
-      };
+  };
 
   const isEmpty = items.length === 0;
 

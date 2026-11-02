@@ -51,15 +51,26 @@ export function Hero({ lang, onViewMenu, onAbout }: HeroProps) {
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          width: "clamp(140px, 30vw, 300px)",
-          height: "clamp(140px, 30vw, 300px)",
           pointerEvents: "none",
           zIndex: 1,
-          filter: "drop-shadow(0 10px 30px rgba(0,0,0,0.35)) drop-shadow(0 0 20px rgba(212,163,115,0.25))",
-          animation: "alfajorFloat 4.5s ease-in-out infinite",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
-        <AlfajorRico size={undefined} />
+        <div
+          style={{
+            width: "clamp(140px, 32vw, 280px)",
+            height: "clamp(140px, 32vw, 280px)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            filter: "drop-shadow(0 10px 30px rgba(0,0,0,0.35)) drop-shadow(0 0 20px rgba(212,163,115,0.25))",
+            animation: "alfajorFloat 4.5s ease-in-out infinite",
+          }}
+        >
+          <AlfajorRico />
+        </div>
       </div>
 
       <div
