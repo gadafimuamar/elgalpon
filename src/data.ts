@@ -21,7 +21,7 @@ export const products: Product[] = [
       en: "Dipped in pure 70% cacao chocolate with generous dulce de leche.",
     },
     price: 1500,
-    img: "https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?auto=format&fit=crop&w=600&q=80",
+    img: "https://upload.wikimedia.org/wikipedia/commons/b/bc/R%C3%BAstico_Chocolate_artisan_dark_chocolate_alfajor_with_dulce_de_leche.jpg",
     tag: "Bestseller",
   },
   {
@@ -35,7 +35,7 @@ export const products: Product[] = [
       en: "Ultra-soft dough melting in your mouth, shredded coconut and rich caramel.",
     },
     price: 1300,
-    img: "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=600&q=80",
+    img: "https://upload.wikimedia.org/wikipedia/commons/3/3c/Alfajor_Cachafaz_Maicena_-_Envoltorio_-_2025_%283%29.jpg",
     tag: "Colección",
   },
   {
@@ -49,7 +49,7 @@ export const products: Product[] = [
       en: "Filled with craft pistachio paste and premium white chocolate coating.",
     },
     price: 1900,
-    img: "https://images.unsplash.com/photo-1579372786545-d24232daf58c?auto=format&fit=crop&w=600&q=80",
+    img: "https://upload.wikimedia.org/wikipedia/commons/c/cb/Alfajor_marca_%22Ely_Grimalde%22_%28Tucum%C3%A1n%2C_Argentina%29._Pistacho_y_dulce_de_leche%2C_cobertura_de_chocolate_blanco._Aspecto_general%2C_detalle_relleno.jpg",
     tag: "Exclusivo",
   },
   {
@@ -63,7 +63,7 @@ export const products: Product[] = [
       en: "Filled with homemade quince jam and topped with crispy sugar glaze.",
     },
     price: 1300,
-    img: "https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=600&q=80",
+    img: "https://upload.wikimedia.org/wikipedia/commons/b/b2/Alfajor_Guaymall%C3%A9n_relleno_de_membrillo_-_%281%29.jpg",
   },
 ];
 
