@@ -23,11 +23,11 @@ export function Hero({ lang, onViewMenu, onAbout }: HeroProps) {
         overflow: "hidden",
         background: `linear-gradient(
           180deg,
-          rgba(74,44,17,0.12) 0%,
-          rgba(74,44,17,0.5) 55%,
-          rgba(74,44,17,0.85) 100%
+          rgba(74,44,17,0.2) 0%,
+          rgba(74,44,17,0.55) 55%,
+          rgba(74,44,17,0.9) 100%
         ),
-        url('https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=1600&q=80')
+        url('https://upload.wikimedia.org/wikipedia/commons/6/6a/Alfajores-de-maicena-biscuits-recipe.jpg')
           center / cover no-repeat`,
       }}
     >
@@ -38,8 +38,9 @@ export function Hero({ lang, onViewMenu, onAbout }: HeroProps) {
           position: "absolute",
           inset: 0,
           background:
-            "radial-gradient(80% 60% at 28% 18%, rgba(212,163,115,0.3), transparent 70%)",
+            "radial-gradient(80% 60% at 28% 18%, rgba(212,163,115,0.25), transparent 70%)",
           pointerEvents: "none",
+          zIndex: 1,
         }}
       />
 
@@ -52,7 +53,7 @@ export function Hero({ lang, onViewMenu, onAbout }: HeroProps) {
           left: "50%",
           transform: "translate(-50%, -50%)",
           pointerEvents: "none",
-          zIndex: 1,
+          zIndex: 3,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -60,12 +61,12 @@ export function Hero({ lang, onViewMenu, onAbout }: HeroProps) {
       >
         <div
           style={{
-            width: "clamp(140px, 32vw, 280px)",
-            height: "clamp(140px, 32vw, 280px)",
+            width: "clamp(80px, 20vw, 180px)",
+            height: "clamp(80px, 20vw, 180px)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            filter: "drop-shadow(0 10px 30px rgba(0,0,0,0.35)) drop-shadow(0 0 20px rgba(212,163,115,0.25))",
+            filter: "drop-shadow(0 10px 30px rgba(0,0,0,0.4)) drop-shadow(0 0 25px rgba(212,163,115,0.3))",
             animation: "alfajorFloat 4.5s ease-in-out infinite",
           }}
         >

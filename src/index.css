@@ -271,11 +271,11 @@ body {
 .hero {
   background: linear-gradient(
     180deg,
-    rgba(74, 44, 17, 0.15) 0%,
+    rgba(74, 44, 17, 0.2) 0%,
     rgba(74, 44, 17, 0.55) 60%,
-    rgba(74, 44, 17, 0.85) 100%
+    rgba(74, 44, 17, 0.9) 100%
   ),
-  url("https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=1600&q=80")
+  url("https://upload.wikimedia.org/wikipedia/commons/6/6a/Alfajores-de-maicena-biscuits-recipe.jpg")
     center / cover no-repeat;
 }
 
@@ -292,7 +292,7 @@ body {
 
 .hero-content {
   position: relative;
-  z-index: 10;
+  z-index: 2;
   max-width: 48rem;
   margin: 0 auto;
   text-align: center;
