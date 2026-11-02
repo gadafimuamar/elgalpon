@@ -17,8 +17,8 @@ export const products: Product[] = [
       en: "Classic Dark Alfajor",
     },
     desc: {
-      es: "Bañado en puro chocolate 70% cacao y generoso dulce de leche.",
-      en: "Dipped in pure 70% cacao chocolate with generous dulce de leche.",
+      es: "Bañado en puro chocolate 70% cacao y generoso dulce de leche. Crujiente por fuera, suave por dentro.",
+      en: "Dipped in pure 70% cacao chocolate with generous dulce de leche. Crunchy outside, soft inside.",
     },
     price: 1500,
     img: "https://upload.wikimedia.org/wikipedia/commons/b/bc/R%C3%BAstico_Chocolate_artisan_dark_chocolate_alfajor_with_dulce_de_leche.jpg",
@@ -31,8 +31,8 @@ export const products: Product[] = [
       en: "Cornstarch Alfajor",
     },
     desc: {
-      es: "Masa súper suave que se deshace en la boca, coco rallado y dulce de leche intenso.",
-      en: "Ultra-soft dough melting in your mouth, shredded coconut and rich caramel.",
+      es: "Masa súper suave que se deshace en la boca, coco rallado y dulce de leche intenso. El clásico argentino.",
+      en: "Ultra-soft dough melting in your mouth, shredded coconut and rich caramel. The Argentine classic.",
     },
     price: 1300,
     img: "https://upload.wikimedia.org/wikipedia/commons/3/3c/Alfajor_Cachafaz_Maicena_-_Envoltorio_-_2025_%283%29.jpg",
@@ -45,8 +45,8 @@ export const products: Product[] = [
       en: "Pistachio & White Choco",
     },
     desc: {
-      es: "Relleno con pasta de pistacho artesanal y cobertura de chocolate blanco fino.",
-      en: "Filled with craft pistachio paste and premium white chocolate coating.",
+      es: "Relleno con pasta de pistacho artesanal y cobertura de chocolate blanco fino. Sabor intenso de pistacho.",
+      en: "Filled with craft pistachio paste and premium white chocolate coating. Strong pistachio flavor.",
     },
     price: 1900,
     img: "https://upload.wikimedia.org/wikipedia/commons/c/cb/Alfajor_marca_%22Ely_Grimalde%22_%28Tucum%C3%A1n%2C_Argentina%29._Pistacho_y_dulce_de_leche%2C_cobertura_de_chocolate_blanco._Aspecto_general%2C_detalle_relleno.jpg",
@@ -59,8 +59,8 @@ export const products: Product[] = [
       en: "Fruit Jam Alfajor",
     },
     desc: {
-      es: "Relleno de dulce de membrillo casero con un glaseado crocante tradicional.",
-      en: "Filled with homemade quince jam and topped with crispy sugar glaze.",
+      es: "Relleno de dulce de membrillo casero con un glaseado crocante tradicional. Sabor a fruta fresca.",
+      en: "Filled with homemade quince jam and topped with crispy sugar glaze. Fresh fruit flavor.",
     },
     price: 1300,
     img: "https://upload.wikimedia.org/wikipedia/commons/b/b2/Alfajor_Guaymall%C3%A9n_relleno_de_membrillo_-_%281%29.jpg",

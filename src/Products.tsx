@@ -77,6 +77,26 @@ export function Products({ lang, onAdd }: ProductsProps) {
             className="btn-add"
             onClick={() => handleAdd(p.id)}
             aria-label={`Agregar ${p.name[lang]} al carrito`}
+            style={{
+              background: "#4a2c11",
+              color: "white",
+              border: "none",
+              padding: "0.5rem 1rem",
+              borderRadius: "2px",
+              fontSize: "0.82rem",
+              fontWeight: 700,
+              cursor: "pointer",
+              transition: "background 0.15s ease, transform 0.1s ease",
+              whiteSpace: "nowrap",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = "#7a4a21";
+              e.currentTarget.style.transform = "translateY(-1px)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "#4a2c11";
+              e.currentTarget.style.transform = "none";
+            }}
           >
             {t.addBtn}
           </button>
@@ -215,8 +235,8 @@ export function Products({ lang, onAdd }: ProductsProps) {
         className="products-grid"
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(270px, 1fr))",
-          gap: "1.75rem",
+          gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+          gap: "1.5rem",
         }}
         role="list"
       >
