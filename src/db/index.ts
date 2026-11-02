@@ -44,12 +44,16 @@ async function getSQL(): Promise<Awaited<ReturnType<typeof initSqlJs>>> {
 // Detectar si tenemos acceso a filesystem (Node/Bun)
 function hasFs(): boolean {
   try {
-    const r = globalThis.require;
-    if (r) {
-      const fs = r("fs");
-      if (fs && typeof fs.existsSync === "function" && typeof fs.readFileSync === "function") {
-        return true;
-      }
+    // Usar createRequire para no disparar dep0018 en Node v22+
+    const createRequire = globalThis.require?.constructor?.name === "require"
+      ? globalThis.require
+      : typeof module !== "undefined" && typeof (module as unknown as { createRequire?: (url: string) => NodeRequire })["createRequire"] === "function"
+        ? (module as unknown as { createRequire: (url: string) => NodeRequire }).createRequire(import.meta.url)
+        : null;
+    if (!createRequire) return false;
+    const fs = createRequire("fs");
+    if (fs && typeof fs.existsSync === "function" && typeof fs.readFileSync === "function") {
+      return true;
     }
     return false;
   } catch {
@@ -60,9 +64,14 @@ function hasFs(): boolean {
 function getFs(): { existsSync: typeof import("fs").existsSync; readFileSync: typeof import("fs").readFileSync; writeFileSync: typeof import("fs").writeFileSync; mkdirSync: typeof import("fs").mkdirSync; dirname: typeof import("path").dirname; unlinkSync: typeof import("fs").unlinkSync } | null {
   if (!hasFs()) return null;
   try {
-    const r = globalThis.require;
-    const fs = r("fs");
-    const path = r("path");
+    const createRequire = globalThis.require?.constructor?.name === "require"
+      ? globalThis.require
+      : typeof module !== "undefined" && typeof (module as unknown as { createRequire?: (url: string) => NodeRequire })["createRequire"] === "function"
+        ? (module as unknown as { createRequire: (url: string) => NodeRequire }).createRequire(import.meta.url)
+        : null;
+    if (!createRequire) return null;
+    const fs = createRequire("fs");
+    const path = createRequire("path");
     return {
       existsSync: fs.existsSync.bind(fs),
       readFileSync: fs.readFileSync.bind(fs),
