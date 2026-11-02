@@ -68,6 +68,7 @@ export function Hero({ lang, onViewMenu, onAbout }: HeroProps) {
             justifyContent: "center",
             filter: "drop-shadow(0 10px 30px rgba(0,0,0,0.4)) drop-shadow(0 0 25px rgba(212,163,115,0.3))",
             animation: "alfajorFloat 4.5s ease-in-out infinite",
+            zIndex: 0,
           }}
         >
           <AlfajorRico />
