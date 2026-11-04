@@ -8,27 +8,21 @@ import {
   updateOrderStatus,
   deleteOrder,
   resetDatabase,
+  createContactMessage,
+  getContactMessageById,
+  getAllContactMessages,
+  markMessageRead,
+  markAllMessagesRead,
+  deleteContactMessage,
   type OrderItem,
 } from "./db";
 
-const dbPath = "./data/test_orders.sqlite";
-
-// Mock fs
-const mockFs = {
-  existsSync: () => false,
-  readFileSync: () => null,
-  writeFileSync: () => {},
-  mkdirSync: () => {},
-  dirname: () => "./data",
-  unlinkSync: () => {},
-};
-
 beforeEach(async () => {
-  // Resetear DB antes de cada test
+  // Resetear DB antes de cada test para empezar fresh cada vez
   await resetDatabase();
 });
 
-test("initDb crea las tablas", async () => {
+test("initDb crea las tablas orders y contact_messages", async () => {
   const db = await initDb();
   expect(db).not.toBeNull();
 
@@ -38,7 +32,7 @@ test("initDb crea las tablas", async () => {
   expect(tablas).toContain("contact_messages");
 });
 
-test("createOrder guarda un pedido", async () => {
+test("createOrder guarda un pedido completo", async () => {
   const db = await initDb();
 
   const items: OrderItem[] = [
@@ -73,12 +67,12 @@ test("createOrder guarda un pedido", async () => {
   expect(order.items[0].cantidad).toBe(2);
   expect(order.total).toBe(4300);
   expect(order.status).toBe("pendiente");
+  expect(order.createdAt).toBeDefined();
 });
 
-test("getAllOrders retorna todos los pedidos", async () => {
+test("getAllOrders retorna todos los pedidos ordenados por created_at DESC", async () => {
   const db = await initDb();
 
-  // Crear varios pedidos
   await createOrder({
     name: "Cliente 1",
     email: "c1@email.com",
@@ -105,11 +99,12 @@ test("getAllOrders retorna todos los pedidos", async () => {
 
   const orders = await getAllOrders();
   expect(orders).toHaveLength(2);
+  // El último creado debe ser el primero en la lista
   expect(orders[0].name).toBe("Cliente 2");
   expect(orders[1].name).toBe("Cliente 1");
 });
 
-test("getOrderById retorna el pedido correcto", async () => {
+test("getOrderById retorna el pedido correcto o null", async () => {
   const db = await initDb();
 
   const created = await createOrder({
@@ -128,6 +123,10 @@ test("getOrderById retorna el pedido correcto", async () => {
   expect(found).not.toBeNull();
   expect(found!.id).toBe(created.id);
   expect(found!.name).toBe("Test User");
+
+  // ID inexistente retorna null
+  const notFound = await getOrderById(99999);
+  expect(notFound).toBeNull();
 });
 
 test("updateOrderStatus actualiza el estado", async () => {
@@ -145,12 +144,18 @@ test("updateOrderStatus actualiza el estado", async () => {
     total: 1000,
   });
 
+  expect(created.status).toBe("pendiente");
+
   await updateOrderStatus(created.id, "enviado");
   const updated = await getOrderById(created.id);
   expect(updated!.status).toBe("enviado");
+
+  await updateOrderStatus(created.id, "entregado");
+  const updated2 = await getOrderById(created.id);
+  expect(updated2!.status).toBe("entregado");
 });
 
-test("deleteOrder elimina el pedido", async () => {
+test("deleteOrder elimina el pedido permanentemente", async () => {
   const db = await initDb();
 
   const created = await createOrder({
@@ -173,7 +178,7 @@ test("deleteOrder elimina el pedido", async () => {
   expect(orders).toHaveLength(0);
 });
 
-test("items son serializados correctamente en JSON", async () => {
+test("items son serializados/deserializados correctamente en JSON", async () => {
   const db = await initDb();
 
   const items: OrderItem[] = [
@@ -198,4 +203,75 @@ test("items son serializados correctamente en JSON", async () => {
   expect(order.items[0]).toEqual({ id: 1, nombre: "Item 1", precio: 1000, cantidad: 2 });
   expect(order.items[1]).toEqual({ id: 2, nombre: "Item 2", precio: 2000, cantidad: 1 });
   expect(order.items[2]).toEqual({ id: 3, nombre: "Item 3", precio: 500, cantidad: 5 });
+});
+
+test("createContactMessage guarda un mensaje de contacto", async () => {
+  const db = await initDb();
+
+  const msg = await createContactMessage({
+    name: "María López",
+    email: "maria@email.com",
+    message: "¿Tenés alfajores sin gluten?",
+  });
+
+  expect(msg).not.toBeNull();
+  expect(msg.id).toBeGreaterThan(0);
+  expect(msg.name).toBe("María López");
+  expect(msg.email).toBe("maria@email.com");
+  expect(msg.message).toBe("¿Tenés alfajores sin gluten?");
+  expect(msg.read).toBe(false);
+});
+
+test("getAllContactMessages retorna todos los mensajes", async () => {
+  const db = await initDb();
+
+  await createContactMessage({ name: "A", email: "a@email.com", message: "Hola" });
+  await createContactMessage({ name: "B", email: "b@email.com", message: "Chau" });
+
+  const messages = await getAllContactMessages();
+  expect(messages).toHaveLength(2);
+  // Los mensajes vienen en orden cronológico inverso (último primero)
+  const nombres = messages.map((m) => m.name);
+  expect(nombres).toContain("A");
+  expect(nombres).toContain("B");
+});
+
+test("markMessageRead y markAllMessagesRead funcionan", async () => {
+  const db = await initDb();
+
+  const msg = await createContactMessage({ name: "X", email: "x@email.com", message: "Test" });
+  expect(msg.read).toBe(false);
+
+  await markMessageRead(msg.id);
+  const updated = await getContactMessageById(msg.id);
+  expect(updated!.read).toBe(true);
+
+  const msg2 = await createContactMessage({ name: "Y", email: "y@email.com", message: "Otro" });
+  await markAllMessagesRead();
+  const all = await getAllContactMessages();
+  expect(all.every((m) => m.read === true || m.read === 1)).toBe(true);
+  expect(all.length).toBe(2);
+});
+
+test("deleteContactMessage elimina el mensaje", async () => {
+  const db = await initDb();
+
+  const msg = await createContactMessage({ name: "Z", email: "z@email.com", message: "Borrar" });
+  await deleteContactMessage(msg.id);
+  const deleted = await getContactMessageById(msg.id);
+  expect(deleted).toBeNull();
+});
+
+test("resetDatabase limpia completamente la DB", async () => {
+  const db = await initDb();
+  await createOrder({ name: "Test", email: "t@email.com", delivery: "pickup", address: null, payment: "cash", note: null, items: [{ id: 1, nombre: "X", precio: 1000, cantidad: 1 }], total: 1000 });
+
+  await resetDatabase();
+
+  const orders = await getAllOrders();
+  expect(orders).toHaveLength(0);
+
+  // ResetDatabase también debe permitir volver a crear
+  const freshDb = await initDb();
+  expect(freshDb).not.toBeNull();
 });
